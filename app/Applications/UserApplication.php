@@ -5,11 +5,13 @@ namespace App\Applications;
 use App\Infastructures\Response;
 use App\Repositories\UserRepository;
 use App\Models\User;
+use App\Repositories\UserTypeRepository;
 
 class UserApplication
 {
     // Repository
     protected $userRepository;
+    protected $userTypeRepository;
 
     // Infrastructure
     protected $response;
@@ -18,10 +20,16 @@ class UserApplication
     private $user;
     private $request;
     private $session;
+    private $isError;
 
-    public function __construct(UserRepository $userRepository, Response $response)
+    public function __construct(
+        UserRepository $userRepository, 
+        UserTypeRepository $userTypeRepository,
+        Response $response)
     {
+        $this->isError = false;
         $this->userRepository = $userRepository;
+        $this->userTypeRepository = $userTypeRepository;
         $this->response = $response;
     }
 
@@ -45,7 +53,14 @@ class UserApplication
         $this->user->name = $this->request->name;
         $this->user->email = $this->request->email;
         $this->user->password = bcrypt($this->request->password);
-        $this->user->role = $this->request->role;
+
+        $userType = $this->userTypeRepository->findByName($this->request->user_type);
+        if ($userType == null)
+        {
+            $this->isError = true;
+            return $this;
+        }
+        $this->user->type_id = $userType->id;
         return $this;
     }
 
@@ -53,9 +68,16 @@ class UserApplication
     {
         $this->user->name = $this->request->name;
         $this->user->email = $this->request->email;
-        if (isset($this->request->role))
+        if (isset($this->request->user_type))
         {
-            $this->user->role = $this->request->role;
+            $userType = $this->userTypeRepository->findByName($this->request->user_type);
+            if ($userType == null)
+            {
+                $this->isError = true;
+                return $this;
+            }
+            $this->user->type_id = $userType->id;
+            return $this;
         }
         return $this;
     }
@@ -68,6 +90,11 @@ class UserApplication
 
     public function execute()
     {   
+        if ($this->isError)
+        {
+            return $this->response->responseObject(false, $this->user);
+        }
+
         if ($this->request == null)
         {
             return $this->response->responseObject(true, $this->user);

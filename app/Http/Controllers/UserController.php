@@ -56,20 +56,20 @@ class UserController extends Controller
     {
         //set validation
         $validator = Validator::make($request->all(), UserValidation::loginRule);
-
+        
         //if validation fails
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+        
         //get credentials from request
         $credentials = $request->only('email', 'password');
-
+        
         //if auth failed
         if(!$token = auth()->guard('api')->attempt($credentials)) {
             return $this->response->errorResponse("Your email or password was wrong");
         }
-
+        
         //if auth success
         return response()->json([
             'success' => true,

@@ -15,6 +15,11 @@ class UserTypeRepository
     {
         return UserType::find($userId);
     }
+
+    public function findByName($name)
+    {
+        return UserType::where('name',$name)->first();
+    }
 }
 
 ?>

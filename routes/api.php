@@ -21,23 +21,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('user_type')->group(function () {
-    Route::post('/',[UserTypeController::class, 'add']);
-    Route::get('/{type_id}',[UserTypeController::class, 'show']);
-    Route::put('/{type_id}',[UserTypeController::class, 'update']);
-    Route::patch('/{type_id}',[UserTypeController::class, 'destroy']);
+    Route::post('/',[UserTypeController::class, 'add', 'admin']);
+    Route::get('/{type_id}',[UserTypeController::class, 'show', 'admin']);
+    Route::put('/{type_id}',[UserTypeController::class, 'update', 'admin']);
+    Route::patch('/{type_id}',[UserTypeController::class, 'destroy', 'admin']);
 });
 
-// Route::prefix('user')->group(function () {
-//     Route::post('/',[UserController::class, 'register']);
-//     Route::post('/login',[UserController::class, 'login']);
-//     Route::get('/profile',[UserController::class, 'profile'])->middleware('jwt');
-//     Route::put('/profile',[UserController::class, 'updateProfile'])->middleware('jwt');
-//     Route::post('/logout',[UserController::class, 'logout'])->middleware('jwt');
-//     Route::get('/',[UserController::class, 'index'])->middleware('jwt');
-//     Route::get('/{userId}',[UserController::class, 'show'])->middleware(['jwt','admin']);
-//     Route::put('/{userId}',[UserController::class, 'update'])->middleware(['jwt','admin']);
-//     Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);
-// });
+Route::prefix('user')->group(function () {
+    Route::post('/',[UserController::class, 'register']);
+    Route::post('/login',[UserController::class, 'login']);
+    Route::get('/profile',[UserController::class, 'profile'])->middleware('jwt');
+    Route::put('/profile',[UserController::class, 'updateProfile'])->middleware('jwt');
+    Route::post('/logout',[UserController::class, 'logout'])->middleware('jwt');
+    Route::get('/',[UserController::class, 'index'])->middleware('jwt');
+    Route::get('/{userId}',[UserController::class, 'show'])->middleware(['jwt','admin']);
+    Route::put('/{userId}',[UserController::class, 'update'])->middleware(['jwt','admin']);
+    Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);
+});
 
 // Route::prefix('sale')->middleware('jwt')->group(function () {
 //     Route::get('/',[SaleController::class, 'index']);
