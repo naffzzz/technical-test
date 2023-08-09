@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
 use Illuminate\Http\Request;
@@ -40,13 +41,12 @@ Route::prefix('user')->group(function () {
     Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);
 });
 
-// Route::prefix('sale')->middleware('jwt')->group(function () {
-//     Route::get('/',[SaleController::class, 'index']);
-//     Route::get('/{saleId}',[SaleController::class, 'show']);
-//     Route::post('/{transportationId}',[SaleController::class, 'store']);
-//     Route::put('/{saleId}',[SaleController::class, 'update']);
-//     Route::patch('/{saleId}',[SaleController::class, 'destroy']);
-// });
+Route::prefix('transaction')->middleware('jwt')->group(function () {
+    Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
+    Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
+    Route::post('/{transactionId}/paid',[TransactionController::class, 'paidTransaction'])->middleware(['jwt']);
+    Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
+    });
 
 Route::prefix('event')->group(function () {
     Route::get('/',[EventController::class, 'index']);

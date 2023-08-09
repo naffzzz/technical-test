@@ -9,7 +9,7 @@ use App\Models\UserType;
 class UserTypeApplication
 {
     // Repository
-    protected $userRepository;
+    protected $userTypeRepository;
 
     // Infrastructure
     protected $response;
@@ -21,7 +21,7 @@ class UserTypeApplication
 
     public function __construct(UserTypeRepository $userTypeRepository, Response $response)
     {
-        $this->userRepository = $userTypeRepository;
+        $this->userTypeRepository = $userTypeRepository;
         $this->response = $response;
     }
 
@@ -29,7 +29,7 @@ class UserTypeApplication
     {
         if ($userId != null)
         {
-            $this->userType = $this->userRepository->findById($userId);
+            $this->userType = $this->userTypeRepository->findById($userId);
         }
         else
         {
