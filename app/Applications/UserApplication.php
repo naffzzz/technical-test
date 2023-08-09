@@ -3,6 +3,7 @@
 namespace App\Applications;
 
 use App\Infastructures\Response;
+use App\Models\Wallet;
 use App\Repositories\UserRepository;
 use App\Models\User;
 use App\Repositories\UserTypeRepository;
@@ -18,6 +19,7 @@ class UserApplication
 
     // Variables
     private $user;
+    private $wallet;
     private $request;
     private $session;
     private $isError;
@@ -42,6 +44,8 @@ class UserApplication
         else
         {
             $this->user = new User;
+            $this->wallet = new Wallet;
+            $this->wallet->balance = 0;
         }
 
         $this->request = $request;
@@ -101,10 +105,19 @@ class UserApplication
         }
 
         $execute = $this->user->save();
-        
+
+        if (isset($this->wallet->balance))
+        {
+            $this->wallet->user_id = $this->user->id;
+            $execute2 = $this->wallet->save();
+            if ($execute2) {
+                return $this->response->responseObject(true, $this->user);
+            }
+        }        
         if ($execute) {
             return $this->response->responseObject(true, $this->user);
         }
+        
         return $this->response->responseObject(false, $this->user);
     }
 }

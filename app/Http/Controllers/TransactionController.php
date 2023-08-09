@@ -69,7 +69,7 @@ class TransactionController extends Controller
         return $this->response->successResponse("Successfully get transaction data", $transaction);
     }
 
-    public function paidTransaction(Request $request, $transactionId)
+    public function payTransaction(Request $request, $transactionId)
     {
         //set validation
         $validator = Validator::make($request->all(), TransactionValidation::transactionRule);
@@ -81,6 +81,7 @@ class TransactionController extends Controller
         $update = $this->transactionApplication
             ->preparation($request, $transactionId)
             ->pay()
+            ->topUpWallet()
             ->execute();
 
         if ($update->original['status'])

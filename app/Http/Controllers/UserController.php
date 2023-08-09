@@ -36,7 +36,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return $this->response->errorResponse($validator->errors());
         }
-
+        
         //create user
         $user = $this->userApplication
             ->preparation($request)

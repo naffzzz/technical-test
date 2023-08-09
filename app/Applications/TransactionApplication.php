@@ -4,23 +4,34 @@ namespace App\Applications;
 
 use App\Infastructures\Response;
 use App\Models\Transaction;
+use App\Repositories\EventRepository;
 use App\Repositories\TransactionRepository;
+use App\Repositories\WalletRepository;
 
 class TransactionApplication
 {
     // Repository
     protected $transactionRepository;
+    protected $walletRepository;
+    protected $eventRepository;
 
     // Infrastructure
     protected $response;
 
     // Variables
     private $transaction;
+    private $wallet;
     private $request;
     private $session;
 
-    public function __construct(TransactionRepository $transactionRepository, Response $response)
+    public function __construct(
+        TransactionRepository $transactionRepository, 
+        WalletRepository $walletRepository,
+        EventRepository $eventRepository,
+        Response $response)
     {
+        $this->walletRepository = $walletRepository;
+        $this->eventRepository = $eventRepository;
         $this->transactionRepository = $transactionRepository;
         $this->response = $response;
     }
@@ -51,6 +62,14 @@ class TransactionApplication
     public function pay()
     {
         $this->transaction->is_paid = true;
+        return $this;
+    }
+
+    public function topUpWallet()
+    {
+        $event = $this->eventRepository->findById($this->transaction->event_id);
+        $this->wallet = $this->transactionRepository->findById($event->creator_id);
+        $this->wallet->balance = $this->wallet->balance + $this->transaction->price;
         return $this;
     }
 

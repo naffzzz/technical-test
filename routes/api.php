@@ -44,7 +44,7 @@ Route::prefix('user')->group(function () {
 Route::prefix('transaction')->middleware('jwt')->group(function () {
     Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
     Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
-    Route::post('/{transactionId}/paid',[TransactionController::class, 'paidTransaction'])->middleware(['jwt']);
+    Route::post('/{transactionId}/paid',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
     Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
     });
 
