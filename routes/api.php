@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
 use Illuminate\Http\Request;
@@ -47,13 +48,10 @@ Route::prefix('user')->group(function () {
 //     Route::patch('/{saleId}',[SaleController::class, 'destroy']);
 // });
 
-// Route::prefix('transportation')->group(function () {
-//     Route::get('/',[TransportationController::class, 'index']);
-//     Route::get('/motorcycle',[TransportationController::class, 'indexMotorcycle']);
-//     Route::get('/car',[TransportationController::class, 'indexCar']);
-//     Route::get('/{transportationId}',[TransportationController::class, 'show']);
-//     Route::post('/',[TransportationController::class, 'store'])->middleware('jwt');
-//     Route::put('/add_stock/{transportationId}',[TransportationController::class, 'updateStock'])->middleware(['jwt', 'admin']);
-//     Route::put('/{transportationId}',[TransportationController::class, 'update'])->middleware(['jwt', 'admin']);
-//     Route::patch('/{transportationId}',[TransportationController::class, 'destroy'])->middleware(['jwt', 'admin']);
-// });
+Route::prefix('event')->group(function () {
+    Route::get('/',[EventController::class, 'index']);
+    Route::get('/{eventId}',[EventController::class, 'show']);
+    Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-organizer']);
+    Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-organizer']);
+    Route::patch('/{eventId}',[EventController::class, 'destroy'])->middleware(['jwt', 'admin-organizer']);
+});
