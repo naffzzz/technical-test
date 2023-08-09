@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\UserType;
+
+class UserTypeRepository
+{
+    public function index()
+    {
+        return UserType::get();
+    }
+
+    public function findById($userId)
+    {
+        return UserType::find($userId);
+    }
+}
+
+?>
