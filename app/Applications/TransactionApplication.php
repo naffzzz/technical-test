@@ -24,6 +24,7 @@ class TransactionApplication
     private $userWallet;
     private $request;
     private $session;
+    private $event;
 
     public function __construct(
         TransactionRepository $transactionRepository, 
@@ -63,16 +64,20 @@ class TransactionApplication
     public function pay()
     {
         $this->transaction->is_paid = true;
+        $this->event = $this->eventRepository->findById($this->transaction->event_id);
+        $this->event->sell = $this->event->sell + 1;
         return $this;
     }
 
     public function return()
     {
-        $event = $this->eventRepository->findById($this->transaction->event_id);
+        $this->event = $this->eventRepository->findById($this->transaction->event_id);
         $this->userWallet = $this->walletRepository->findByUserId(auth()->guard('api')->user()->id);
-        $this->promoterWallet = $this->walletRepository->findByUserId($event->creator_id);
-        $this->promoterWallet->balance = $this->promoterWallet->balance - $event->price;
-        $this->userWallet->balance = $this->userWallet->balance + $event->price;
+        $this->promoterWallet = $this->walletRepository->findByUserId($this->event->creator_id);
+        $this->promoterWallet->balance = $this->promoterWallet->balance - $this->event->price;
+        $this->userWallet->balance = $this->userWallet->balance + $this->event->price;
+        $this->event->sell = $this->event->sell - 1;
+        $this->event->return = $this->event->return + 1;
         return $this;
     }
 
@@ -108,6 +113,10 @@ class TransactionApplication
         if (isset($this->userWallet))
         {
             $this->userWallet->save();
+        }
+        if (isset($this->event))
+        {
+            $this->event->save();
         }
 
         if ($execute) {

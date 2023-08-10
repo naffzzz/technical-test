@@ -17,6 +17,8 @@ class Event extends Model
         'status',
         'open_order_status',
         'creator_id',
-        'image'
+        'image',
+        'sell',
+        'return'
     ];
 }
