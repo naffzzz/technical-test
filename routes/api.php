@@ -9,6 +9,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
+use App\Http\Controllers\WithdrawalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,4 +96,13 @@ Route::prefix('user')->group(function () {
 
 Route::prefix('upload')->middleware('jwt')->group(function () {
     Route::post('/event',[UploadController::class, 'uploadEventImage'])->middleware(['jwt', 'admin-promoter']);
+});
+
+Route::prefix('withdrawal')->group(function () {
+    Route::post('/',[WithdrawalController::class, 'add'])->middleware(['jwt']);
+    Route::get('/',[WithdrawalController::class, 'index'])->middleware(['jwt', 'admin']);
+    Route::get('/my_withdrawals',[WithdrawalController::class, 'userIndex'])->middleware(['jwt']);
+    Route::get('/{withdrawal_id}',[WithdrawalController::class, 'show'])->middleware(['jwt']);
+    Route::put('/{withdrawal_id}',[WithdrawalController::class, 'update'])->middleware(['jwt']);
+    Route::patch('/{withdrawal_id}',[WithdrawalController::class, 'destroy'])->middleware(['jwt']);
 });
