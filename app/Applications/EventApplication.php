@@ -56,6 +56,8 @@ class EventApplication
         $this->event->image = $this->request->image;
         $this->event->sell = 0;
         $this->event->return = 0;
+        $this->event->type = $this->request->type;
+        $this->event->description = $this->request->description;
         return $this;
     }
 
@@ -67,6 +69,8 @@ class EventApplication
         $this->event->is_open = $this->request->is_open;
         $this->event->status = $this->request->status;
         $this->event->open_order_date = $this->request->open_order_date;
+        $this->event->type = $this->request->type;
+        $this->event->description = $this->request->description;
         return $this;
     }
 

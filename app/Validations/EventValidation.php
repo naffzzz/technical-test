@@ -11,6 +11,8 @@ class EventValidation
         'is_open'  => 'required|boolean',
         'status'  => 'required',
         'open_order_date'  => 'required',
+        'type' => 'required',
+        'description' => 'required'
     ];
 }
 

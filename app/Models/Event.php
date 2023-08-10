@@ -19,6 +19,8 @@ class Event extends Model
         'creator_id',
         'image',
         'sell',
-        'return'
+        'return',
+        'type',
+        'description'
     ];
 }
