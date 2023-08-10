@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Seeders\BankAccountSeeder;
 use Database\Seeders\BankSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\UserTypeSeeder;
@@ -20,5 +21,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(BankSeeder::class);
         $this->call(WalletSeeder::class);
+        $this->call(BankAccountSeeder::class);
+        $this->call(CreditCardSeeder::class);
     }
 }
