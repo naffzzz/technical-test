@@ -95,7 +95,7 @@ class EventController extends Controller
             return $this->response->successResponse("Successfully update event data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed update event data", $update->original['data']); 
+        return $this->response->errorResponse("Failed update event data"); 
         
     }
 
@@ -116,6 +116,6 @@ class EventController extends Controller
             return $this->response->successResponse("Successfully delete event data", $delete->original['data']); 
         }
         
-        return $this->response->successResponse("Failed delete event data", $delete->original['data']); 
+        return $this->response->errorResponse("Failed delete event data"); 
     }
 }

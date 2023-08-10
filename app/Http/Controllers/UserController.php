@@ -164,7 +164,7 @@ class UserController extends Controller
             return $this->response->successResponse("Successfully update user data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed update user data", $update->original['data']); 
+        return $this->response->errorResponse("Failed update user data"); 
     }
 
     /**
@@ -184,6 +184,6 @@ class UserController extends Controller
             return $this->response->successResponse("Successfully delete user data", $delete->original['data']); 
         }
         
-        return $this->response->successResponse("Failed delete user data", $delete->original['data']); 
+        return $this->response->errorResponse("Failed delete user data"); 
     }
 }

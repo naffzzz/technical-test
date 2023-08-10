@@ -29,7 +29,7 @@ class UploadController extends Controller
             // Store the image on the FTP server with a unique filename
             Storage::disk('ftp')->put($path, file_get_contents($image));
             
-            return $this->response->successResponse("success upload image ", null);
+            return $this->response->successResponse("success upload image ", $uniqueFilename);
         }
 
         return $this->response->errorResponse("failed upload image");

@@ -100,7 +100,7 @@ class BankAccountController extends Controller
             return $this->response->successResponse("Successfully update bank account data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed update bank account data", $update->original['data']); 
+        return $this->response->errorResponse("Failed update bank account data"); 
         
     }
 
@@ -121,6 +121,6 @@ class BankAccountController extends Controller
             return $this->response->successResponse("Successfully delete bank account data", $delete->original['data']); 
         }
         
-        return $this->response->successResponse("Failed delete bank account data", $delete->original['data']); 
+        return $this->response->errorResponse("Failed delete bank account data"); 
     }
 }

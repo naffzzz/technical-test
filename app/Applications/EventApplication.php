@@ -53,6 +53,7 @@ class EventApplication
         $this->event->status = $this->request->status;
         $this->event->open_order_date = $this->request->open_order_date;
         $this->event->creator_id = auth()->guard('api')->user()->id;
+        $this->event->image = $this->request->image;
         return $this;
     }
 

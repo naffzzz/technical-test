@@ -90,7 +90,7 @@ class TransactionController extends Controller
             return $this->response->successResponse("Successfully pay transaction data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed pay transaction data", $update->original['data']); 
+        return $this->response->errorResponse("Failed pay transaction data"); 
         
     }
 
@@ -113,7 +113,7 @@ class TransactionController extends Controller
             return $this->response->successResponse("Successfully return transaction data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed return transaction data", $update->original['data']); 
+        return $this->response->errorResponse("Failed return transaction data"); 
         
     }
 }

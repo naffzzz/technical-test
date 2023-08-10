@@ -94,7 +94,7 @@ class UserTypeController extends Controller
             return $this->response->successResponse("Successfully update user type data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed update user type data", $update->original['data']); 
+        return $this->response->errorResponse("Failed update user type data"); 
         
     }
 
@@ -115,6 +115,6 @@ class UserTypeController extends Controller
             return $this->response->successResponse("Successfully delete user type data", $delete->original['data']); 
         }
         
-        return $this->response->successResponse("Failed delete user type data", $delete->original['data']); 
+        return $this->response->errorResponse("Failed delete user type data"); 
     }
 }

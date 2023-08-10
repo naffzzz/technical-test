@@ -94,7 +94,7 @@ class BankController extends Controller
             return $this->response->successResponse("Successfully update bank data", $update->original['data']); 
         }
         
-        return $this->response->successResponse("Failed update bank data", $update->original['data']); 
+        return $this->response->errorResponse("Failed update bank data"); 
         
     }
 
@@ -115,6 +115,6 @@ class BankController extends Controller
             return $this->response->successResponse("Successfully delete bank data", $delete->original['data']); 
         }
         
-        return $this->response->successResponse("Failed delete bank data", $delete->original['data']); 
+        return $this->response->errorResponse("Failed delete bank data"); 
     }
 }
