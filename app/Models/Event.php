@@ -16,6 +16,7 @@ class Event extends Model
         'is_open',
         'status',
         'open_order_status',
-        'creator_id'
+        'creator_id',
+        'image'
     ];
 }

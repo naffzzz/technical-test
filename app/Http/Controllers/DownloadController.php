@@ -40,6 +40,6 @@ class DownloadController extends Controller
             $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('qrCodeTemplate', compact('qrCode'));
             return $pdf->download('qr_code_event.pdf');
         }
-        return $this->response->successResponse("Failed get qr code ", null);
+        return $this->response->errorResponse("Failed get qr code");
     }
 }

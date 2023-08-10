@@ -5,6 +5,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserTypeController;
 use Illuminate\Http\Request;
@@ -80,4 +81,8 @@ Route::prefix('user')->group(function () {
     Route::get('/{userId}',[UserController::class, 'show'])->middleware(['jwt','admin']);
     Route::put('/{userId}',[UserController::class, 'update'])->middleware(['jwt','admin']);
     Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);
+});
+
+Route::prefix('upload')->middleware('jwt')->group(function () {
+    Route::post('/event',[UploadController::class, 'uploadEventImage'])->middleware(['jwt', 'admin-promoter']);
 });

@@ -56,6 +56,15 @@ return [
             'throw' => false,
         ],
 
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+            'port'     => env((int)'FTP_PORT', 21), // Make sure the port is an integer
+            // Other FTP configuration options if needed
+        ],
+
     ],
 
     /*
