@@ -58,6 +58,8 @@ class TransactionApplication
         $this->transaction->event_id = $this->request->event_id;
         $this->transaction->buyer_id = auth()->guard('api')->user()->id;
         $this->transaction->is_paid = false;
+        $this->event = $this->eventRepository->findById($this->transaction->event_id);
+        $this->event->ticket_capacity = $this->event->ticket_capacity - 1;
         return $this;
     }
 
@@ -80,6 +82,7 @@ class TransactionApplication
         $this->userWallet->balance = $this->userWallet->balance + $this->event->price;
         $this->event->sell = $this->event->sell - 1;
         $this->event->return = $this->event->return + 1;
+        $this->event->ticket_capacity = $this->event->ticket_capacity + 1;
         return $this;
     }
 

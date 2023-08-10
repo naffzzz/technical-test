@@ -58,6 +58,7 @@ class EventApplication
         $this->event->return = 0;
         $this->event->type = $this->request->type;
         $this->event->description = $this->request->description;
+        $this->event->ticket_capacity = $this->request->ticket_capacity;
         return $this;
     }
 
@@ -71,6 +72,7 @@ class EventApplication
         $this->event->open_order_date = $this->request->open_order_date;
         $this->event->type = $this->request->type;
         $this->event->description = $this->request->description;
+        $this->event->ticket_capacity = $this->request->ticket_capacity;
         return $this;
     }
 

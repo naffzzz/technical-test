@@ -95,13 +95,6 @@ class TransactionController extends Controller
 
     public function returnTransaction(Request $request, $transactionId)
     {
-        //set validation
-        $validator = Validator::make($request->all(), TransactionValidation::transactionRule);
-
-        if ($validator->fails()) {
-            return $this->response->errorResponse($validator->errors());
-        }
-
         $update = $this->transactionApplication
             ->preparation($request, $transactionId)
             ->return()

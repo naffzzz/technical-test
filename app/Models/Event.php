@@ -21,6 +21,7 @@ class Event extends Model
         'sell',
         'return',
         'type',
-        'description'
+        'description',
+        'ticket'
     ];
 }
