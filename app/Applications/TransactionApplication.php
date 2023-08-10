@@ -64,6 +64,8 @@ class TransactionApplication
     public function pay()
     {
         $this->transaction->is_paid = true;
+        $this->transaction->payment_method = $this->request->payment_method;
+        $this->transaction->payment_account_id = $this->request->payment_account_id;
         $this->event = $this->eventRepository->findById($this->transaction->event_id);
         $this->event->sell = $this->event->sell + 1;
         return $this;

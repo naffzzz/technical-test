@@ -15,6 +15,12 @@ class TransactionRepository
     {
         return Transaction::find($transactionId);
     }
+
+    public function findByBuyerId($buyerId)
+    {
+        return Transaction::where('buyer_id',$buyerId)->get();
+    }
+
 }
 
 ?>

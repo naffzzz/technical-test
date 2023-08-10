@@ -77,7 +77,8 @@ Route::prefix('event')->group(function () {
 });
 
 Route::prefix('transaction')->middleware('jwt')->group(function () {
-    Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
+    Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt', 'admin']);
+    Route::get('/my_transactions',[TransactionController::class, 'userIndex'])->middleware(['jwt']);
     Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
     Route::post('/{transactionId}/pay',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
     Route::post('/{transactionId}/return',[TransactionController::class, 'returnTransaction'])->middleware(['jwt']);

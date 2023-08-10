@@ -58,6 +58,12 @@ class TransactionController extends Controller
         return $this->response->successResponse("Successfully get transactions data", $transactions);
     }
 
+    public function userIndex()
+    {
+        $transactions = $this->transactionRepository->findByBuyerId(auth()->guard('api')->user()->id);
+        return $this->response->successResponse("Successfully get transactions data", $transactions);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -71,13 +77,6 @@ class TransactionController extends Controller
 
     public function payTransaction(Request $request, $transactionId)
     {
-        //set validation
-        $validator = Validator::make($request->all(), TransactionValidation::transactionRule);
-
-        if ($validator->fails()) {
-            return $this->response->errorResponse($validator->errors());
-        }
-
         $update = $this->transactionApplication
             ->preparation($request, $transactionId)
             ->pay()

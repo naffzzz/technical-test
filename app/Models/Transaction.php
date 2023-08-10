@@ -13,6 +13,8 @@ class Transaction extends Model
         'event_id',
         'buyer_id',
         'is_paid',
-        'qr_code_token'
+        'qr_code_token',
+        'payment_method',
+        'payment_account_id'
     ];
 }
