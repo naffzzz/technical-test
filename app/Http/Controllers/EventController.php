@@ -46,16 +46,16 @@ class EventController extends Controller
 
         //return response JSON user is created
         if($user->original['status']) {
-            return $this->response->successResponse("Successfully register user data", $user->original['data']);
+            return $this->response->successResponse("Successfully add event data", $user->original['data']);
         }
 
         //return JSON process insert failed 
-        return $this->response->errorResponse("Failed register user data");
+        return $this->response->errorResponse("Failed add event data");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $events = $this->eventRepository->index();
+        $events = $this->eventRepository->index($request);
         return $this->response->successResponse("Successfully get events data", $events);
     }
 
