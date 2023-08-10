@@ -12,6 +12,7 @@ class Transaction extends Model
     protected $fillable = [
         'event_id',
         'buyer_id',
-        'is_paid'
+        'is_paid',
+        'qr_code_token'
     ];
 }

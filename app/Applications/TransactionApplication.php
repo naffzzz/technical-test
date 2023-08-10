@@ -84,6 +84,14 @@ class TransactionApplication
         return $this;
     }
 
+    public function generateQrCode()
+    {
+        $randomString = substr(md5(uniqid(mt_rand(), true)), 0, 100);
+        $uniqueToken = $this->transaction->id. $randomString;
+        $this->transaction->qr_code_token = $uniqueToken;
+        return $this;
+    }
+
     public function execute()
     {   
         if ($this->request == null)

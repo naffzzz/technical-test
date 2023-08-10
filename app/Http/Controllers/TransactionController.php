@@ -82,6 +82,7 @@ class TransactionController extends Controller
             ->preparation($request, $transactionId)
             ->pay()
             ->topUpWallet()
+            ->generateQrCode()
             ->execute();
 
         if ($update->original['status'])

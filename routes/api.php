@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -47,7 +48,11 @@ Route::prefix('transaction')->middleware('jwt')->group(function () {
     Route::post('/{transactionId}/pay',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
     Route::post('/{transactionId}/return',[TransactionController::class, 'returnTransaction'])->middleware(['jwt']);
     Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
-    });
+});
+
+Route::prefix('download')->middleware('jwt')->group(function () {
+    Route::get('/qrcode/{transactionId}',[DownloadController::class, 'downloadQrCode'])->middleware(['jwt']);
+});
 
 Route::prefix('event')->group(function () {
     Route::get('/',[EventController::class, 'index']);
