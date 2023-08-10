@@ -9,7 +9,7 @@ use App\Infastructures\Response;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AdminOrganizerMiddleware
+class AdminPromoterMiddleware
 {
     private $response;
     private $userTypeRepository;
@@ -40,7 +40,7 @@ class AdminOrganizerMiddleware
             $userType = $this->userTypeRepository->findById(auth()->guard('api')->user()->type_id);
             if (isset($userType))
             {
-                if ($userType->name == UserRoleConstant::Admin || $userType->name == UserRoleConstant::Organizer)
+                if ($userType->name == UserRoleConstant::Admin || $userType->name == UserRoleConstant::Promoter)
                 {
                     return $next($request);
                 }

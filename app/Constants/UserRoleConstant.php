@@ -4,7 +4,7 @@ namespace App\Constants;
 
 class UserRoleConstant
 {
-    public const Organizer = "organizer";
+    public const Promoter = "promoter";
     public const Admin = "admin";
 }
 

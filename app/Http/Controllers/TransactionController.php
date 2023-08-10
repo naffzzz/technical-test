@@ -92,4 +92,27 @@ class TransactionController extends Controller
         return $this->response->successResponse("Failed pay transaction data", $update->original['data']); 
         
     }
+
+    public function returnTransaction(Request $request, $transactionId)
+    {
+        //set validation
+        $validator = Validator::make($request->all(), TransactionValidation::transactionRule);
+
+        if ($validator->fails()) {
+            return $this->response->errorResponse($validator->errors());
+        }
+
+        $update = $this->transactionApplication
+            ->preparation($request, $transactionId)
+            ->return()
+            ->execute();
+
+        if ($update->original['status'])
+        {
+            return $this->response->successResponse("Successfully return transaction data", $update->original['data']); 
+        }
+        
+        return $this->response->successResponse("Failed return transaction data", $update->original['data']); 
+        
+    }
 }

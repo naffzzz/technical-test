@@ -11,9 +11,9 @@ class WalletRepository
         return Wallet::get();
     }
 
-    public function findById($userId)
+    public function findByUserId($userId)
     {
-        return Wallet::find($userId);
+        return Wallet::where('user_id', $userId)->first();
     }
 }
 

@@ -20,7 +20,8 @@ class TransactionApplication
 
     // Variables
     private $transaction;
-    private $wallet;
+    private $promoterWallet;
+    private $userWallet;
     private $request;
     private $session;
 
@@ -65,11 +66,21 @@ class TransactionApplication
         return $this;
     }
 
+    public function return()
+    {
+        $event = $this->eventRepository->findById($this->transaction->event_id);
+        $this->userWallet = $this->walletRepository->findByUserId(auth()->guard('api')->user()->id);
+        $this->promoterWallet = $this->walletRepository->findByUserId($event->creator_id);
+        $this->promoterWallet->balance = $this->promoterWallet->balance - $event->price;
+        $this->userWallet->balance = $this->userWallet->balance + $event->price;
+        return $this;
+    }
+
     public function topUpWallet()
     {
         $event = $this->eventRepository->findById($this->transaction->event_id);
-        $this->wallet = $this->transactionRepository->findById($event->creator_id);
-        $this->wallet->balance = $this->wallet->balance + $this->transaction->price;
+        $this->promoterWallet = $this->walletRepository->findByUserId($event->creator_id);
+        $this->promoterWallet->balance = $this->promoterWallet->balance + $event->price;
         return $this;
     }
 
@@ -82,6 +93,15 @@ class TransactionApplication
 
         $execute = $this->transaction->save();
         
+        if (isset($this->promoterWallet))
+        {
+            $this->promoterWallet->save();
+        }
+        if (isset($this->userWallet))
+        {
+            $this->userWallet->save();
+        }
+
         if ($execute) {
             return $this->response->responseObject(true, $this->transaction);
         }

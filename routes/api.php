@@ -44,14 +44,15 @@ Route::prefix('user')->group(function () {
 Route::prefix('transaction')->middleware('jwt')->group(function () {
     Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
     Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
-    Route::post('/{transactionId}/paid',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
+    Route::post('/{transactionId}/pay',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
+    Route::post('/{transactionId}/return',[TransactionController::class, 'returnTransaction'])->middleware(['jwt']);
     Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
     });
 
 Route::prefix('event')->group(function () {
     Route::get('/',[EventController::class, 'index']);
     Route::get('/{eventId}',[EventController::class, 'show']);
-    Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-organizer']);
-    Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-organizer']);
-    Route::patch('/{eventId}',[EventController::class, 'destroy'])->middleware(['jwt', 'admin-organizer']);
+    Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-promoter']);
+    Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-promoter']);
+    Route::patch('/{eventId}',[EventController::class, 'destroy'])->middleware(['jwt', 'admin-promoter']);
 });
