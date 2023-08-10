@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\DownloadController;
@@ -21,6 +22,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+
+
+Route::group(['middleware' => ['web']], function () {
+    Route::prefix('auth')->group(function () {
+        Route::get('/google', [AuthController::class, 'redirectToGoogle']);
+        Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback']);
+    });
+});
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
