@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
@@ -23,8 +24,37 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('bank')->group(function () {
+    Route::post('/',[BankController::class, 'add', 'admin']);
+    Route::get('/',[BankController::class, 'index', 'admin']);
+    Route::get('/{bank_id}',[BankController::class, 'show', 'admin']);
+    Route::put('/{bank_id}',[BankController::class, 'update', 'admin']);
+    Route::patch('/{bank_id}',[BankController::class, 'destroy', 'admin']);
+});
+
+Route::prefix('download')->middleware('jwt')->group(function () {
+    Route::get('/qrcode/{transactionId}',[DownloadController::class, 'downloadQrCode'])->middleware(['jwt']);
+});
+
+Route::prefix('event')->group(function () {
+    Route::get('/',[EventController::class, 'index']);
+    Route::get('/{eventId}',[EventController::class, 'show']);
+    Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-promoter']);
+    Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-promoter']);
+    Route::patch('/{eventId}',[EventController::class, 'destroy'])->middleware(['jwt', 'admin-promoter']);
+});
+
+Route::prefix('transaction')->middleware('jwt')->group(function () {
+    Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
+    Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
+    Route::post('/{transactionId}/pay',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
+    Route::post('/{transactionId}/return',[TransactionController::class, 'returnTransaction'])->middleware(['jwt']);
+    Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
+});
+
 Route::prefix('user_type')->group(function () {
     Route::post('/',[UserTypeController::class, 'add', 'admin']);
+    Route::get('/',[UserTypeController::class, 'index', 'admin']);
     Route::get('/{type_id}',[UserTypeController::class, 'show', 'admin']);
     Route::put('/{type_id}',[UserTypeController::class, 'update', 'admin']);
     Route::patch('/{type_id}',[UserTypeController::class, 'destroy', 'admin']);
@@ -40,24 +70,4 @@ Route::prefix('user')->group(function () {
     Route::get('/{userId}',[UserController::class, 'show'])->middleware(['jwt','admin']);
     Route::put('/{userId}',[UserController::class, 'update'])->middleware(['jwt','admin']);
     Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);
-});
-
-Route::prefix('transaction')->middleware('jwt')->group(function () {
-    Route::get('/',[TransactionController::class, 'index'])->middleware(['jwt']);
-    Route::get('/{transactionId}',[TransactionController::class, 'show'])->middleware(['jwt']);
-    Route::post('/{transactionId}/pay',[TransactionController::class, 'payTransaction'])->middleware(['jwt']);
-    Route::post('/{transactionId}/return',[TransactionController::class, 'returnTransaction'])->middleware(['jwt']);
-    Route::post('/',[TransactionController::class, 'store'])->middleware(['jwt']);
-});
-
-Route::prefix('download')->middleware('jwt')->group(function () {
-    Route::get('/qrcode/{transactionId}',[DownloadController::class, 'downloadQrCode'])->middleware(['jwt']);
-});
-
-Route::prefix('event')->group(function () {
-    Route::get('/',[EventController::class, 'index']);
-    Route::get('/{eventId}',[EventController::class, 'show']);
-    Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-promoter']);
-    Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-promoter']);
-    Route::patch('/{eventId}',[EventController::class, 'destroy'])->middleware(['jwt', 'admin-promoter']);
 });
