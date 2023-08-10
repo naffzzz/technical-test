@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\CreditCardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\TransactionController;
@@ -52,6 +53,15 @@ Route::prefix('bank_account')->group(function () {
     Route::get('/{bank_account_id}',[BankAccountController::class, 'show'])->middleware(['jwt']);
     Route::put('/{bank_account_id}',[BankAccountController::class, 'update'])->middleware(['jwt']);
     Route::patch('/{bank_account_id}',[BankAccountController::class, 'destroy'])->middleware(['jwt']);
+});
+
+Route::prefix('credit_card')->group(function () {
+    Route::post('/',[CreditCardController::class, 'add'])->middleware(['jwt']);
+    Route::get('/',[CreditCardController::class, 'index'])->middleware(['jwt', 'admin']);
+    Route::get('/my_credit_cards',[CreditCardController::class, 'userIndex'])->middleware(['jwt']);
+    Route::get('/{credit_card_id}',[CreditCardController::class, 'show'])->middleware(['jwt']);
+    Route::put('/{credit_card_id}',[CreditCardController::class, 'update'])->middleware(['jwt']);
+    Route::patch('/{credit_card_id}',[CreditCardController::class, 'destroy'])->middleware(['jwt']);
 });
 
 Route::prefix('download')->middleware('jwt')->group(function () {
