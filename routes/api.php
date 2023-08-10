@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EventController;
@@ -25,11 +26,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('bank')->group(function () {
-    Route::post('/',[BankController::class, 'add', 'admin']);
-    Route::get('/',[BankController::class, 'index', 'admin']);
-    Route::get('/{bank_id}',[BankController::class, 'show', 'admin']);
-    Route::put('/{bank_id}',[BankController::class, 'update', 'admin']);
-    Route::patch('/{bank_id}',[BankController::class, 'destroy', 'admin']);
+    Route::post('/',[BankController::class, 'add'])->middleware(['jwt', 'admin']);
+    Route::get('/',[BankController::class, 'index'])->middleware(['jwt', 'admin']);
+    Route::get('/{bank_id}',[BankController::class, 'show'])->middleware(['jwt', 'admin']);
+    Route::put('/{bank_id}',[BankController::class, 'update'])->middleware(['jwt', 'admin']);
+    Route::patch('/{bank_id}',[BankController::class, 'destroy'])->middleware(['jwt', 'admin']);
+});
+
+Route::prefix('bank_account')->group(function () {
+    Route::post('/',[BankAccountController::class, 'add'])->middleware(['jwt']);
+    Route::get('/',[BankAccountController::class, 'index'])->middleware(['jwt', 'admin']);
+    Route::get('/my_bank_accounts',[BankAccountController::class, 'userIndex'])->middleware(['jwt']);
+    Route::get('/{bank_account_id}',[BankAccountController::class, 'show'])->middleware(['jwt']);
+    Route::put('/{bank_account_id}',[BankAccountController::class, 'update'])->middleware(['jwt']);
+    Route::patch('/{bank_account_id}',[BankAccountController::class, 'destroy'])->middleware(['jwt']);
 });
 
 Route::prefix('download')->middleware('jwt')->group(function () {
