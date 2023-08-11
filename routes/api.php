@@ -102,7 +102,7 @@ Route::prefix('user')->group(function () {
     Route::get('/profile',[UserController::class, 'profile'])->middleware('jwt');
     Route::put('/profile',[UserController::class, 'updateProfile'])->middleware('jwt');
     Route::post('/logout',[UserController::class, 'logout'])->middleware('jwt');
-    Route::get('/',[UserController::class, 'index'])->middleware('jwt');
+    Route::get('/',[UserController::class, 'index'])->middleware('jwt','admin');
     Route::get('/{userId}',[UserController::class, 'show'])->middleware(['jwt','admin']);
     Route::put('/{userId}',[UserController::class, 'update'])->middleware(['jwt','admin']);
     Route::patch('/{userId}',[UserController::class, 'destroy'])->middleware(['jwt','admin']);

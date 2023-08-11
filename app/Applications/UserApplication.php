@@ -88,7 +88,7 @@ class UserApplication
 
     public function delete()
     {
-       $this->user->delete();
+    //    $this->user->delete();
        return $this;
     }
 
