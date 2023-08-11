@@ -70,6 +70,9 @@ Route::prefix('download')->middleware('jwt')->group(function () {
 
 Route::prefix('event')->group(function () {
     Route::get('/',[EventController::class, 'index']);
+    Route::get('/my_events',[EventController::class, 'userIndex'])->middleware(['jwt']);
+    Route::get('/my_sell_events',[EventController::class, 'sellEvent'])->middleware(['jwt']);
+    Route::get('/my_return_events',[EventController::class, 'returnEvent'])->middleware(['jwt']);
     Route::get('/{eventId}',[EventController::class, 'show']);
     Route::post('/',[EventController::class, 'store'])->middleware(['jwt','admin-promoter']);
     Route::put('/{eventId}',[EventController::class, 'update'])->middleware(['jwt','admin-promoter']);

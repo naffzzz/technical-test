@@ -30,9 +30,14 @@ class EventRepository
         return $results;
     }
 
-    public function findById($userId)
+    public function findById($eventId)
     {
-        return Event::find($userId);
+        return Event::find($eventId);
+    }
+
+    public function findByCreatorId($creatorId)
+    {
+        return Event::where('creator_id', $creatorId)->get();
     }
 }
 

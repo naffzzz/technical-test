@@ -59,6 +59,25 @@ class EventController extends Controller
         return $this->response->successResponse("Successfully get events data", $events);
     }
 
+    public function userIndex(Request $request)
+    {
+        $events = $this->eventRepository->findByCreatorId(auth()->guard('api')->user()->id);
+        return $this->response->successResponse("Successfully get events data", $events);
+    }
+
+    public function sellEvent(Request $request)
+    {
+        $sellEvents = (object)["total sell " => $this->eventRepository->findByCreatorId(auth()->guard('api')->user()->id)->sum('sell')];
+
+        return $this->response->successResponse("Successfully get events data", $sellEvents);
+    }
+
+    public function returnEvent(Request $request)
+    {
+        $returnEvents = (object)["total return " => $this->eventRepository->findByCreatorId(auth()->guard('api')->user()->id)->sum('return')];
+        return $this->response->successResponse("Successfully get events data", $returnEvents);
+    }
+
     /**
      * Display the specified resource.
      *
